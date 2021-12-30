@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Budget Calc v1.0</title>
+    <link rel="stylesheet" href="./src/projekat.css">
+</head>
+
+<body>
+    <div id="projekat">
+        <div id="prikaz">
+            <div id="prikaz-kont">
+                <h3 id="naslov">Home Budget Calc v1.0 </h2>
+                    <section id="prikaz-suma" visibility='hidden'>
+                        Ukupno:
+                    </section>
+
+                    <section id="prikaz-prihod">
+                        <p id="prihod-paragraf"><span class="span-naslov">PRIHOD</span> <span id="prihod-suma"></span>
+                            <span id="prihod-procenat">%</span></p>
+                    </section>
+
+                    <section id="prikaz-rashod">
+                        <p id="rashod-paragraf"><span class="span-naslov">RASHOD</span> <span id="rashod-suma">
+                            </span> <span id="rashod-procenat">%</span></p>
+                    </section>
+            </div>
+        </div>
+
+        <div id="input-kont">
+            <button id="btnSave">Sačuvaj podatke</button>
+            <div id="inputi">
+                <select id="input-select">
+                    <option selected disabled>Tip</option>
+                    <option value="1">+</option>
+                    <option value="0">-</option>
+                </select>
+                <input type="text" id="input-opis" placeholder="Opis">
+                <input type="number" id="input-broj" placeholder="Iznos">
+                <input type="button" id="btn-dodaj" value="✔">
+            </div>
+        </div>
+
+        <div id="liste-kont">
+
+            <div id="lista-prihodi">
+                <h2 id="naslov-prihodi">PRIHODI</h2>
+                <hr>
+            </div>
+
+            <div id="lista-rashodi">
+                <h2 id="naslov-rashodi">RASHODI</h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./src/indexProjekat.js"></script>
+    <script type="module" src="./src/funkcije.js"></script>
+    <script type="module" src="./src/varijable.js"></script>
+
+</body>
+
+</html>
