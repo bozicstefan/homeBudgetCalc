@@ -2,7 +2,6 @@ import {
     sveVarijable
 } from "./varijable.js";
 
-
 // Prikaz rashoda
 function rashodiPrikaz() {
 
@@ -29,6 +28,7 @@ function rashodiPrikaz() {
         console.log("dodat rashod:", itemRashodi);
         console.log("svi trenutni rashodi:", sveVarijable.rashodi);
 
+        //Pravljenje jednog paragrafa rashoda
         let paragraf = document.createElement('p')
         let spanOpis = document.createElement('span');
         let spanIznos = document.createElement('span');
@@ -42,18 +42,17 @@ function rashodiPrikaz() {
         spanOpis.textContent = itemRashodi.opis;
         spanOpis.className = 'spanOpis';
 
-        spanIznos.textContent = '-' + itemRashodi.vrednost;
+        spanIznos.textContent = '-' + formatNumber(itemRashodi.vrednost);
         spanIznos.className = 'spanIznosRashod';
 
         spanProcenat.textContent = (itemRashodi.vrednost / suma(sveVarijable.prihodi) * 100).toFixed(2) + '%'
         spanProcenat.className = 'spanProcenat'
 
+        //Dodavanje paragrafa rashoda na listu
         sveVarijable.listaRashodi.append(paragraf);
         paragraf.append(spanOpis, spanIznos, spanProcenat, noviRed, linija);
 
-        sveVarijable.prikazRashod.textContent = '-' + suma(sveVarijable.rashodi);
-        sveVarijable.prikazRashodProcenat.textContent = procenat(sveVarijable.rashodi, sveVarijable.prihodi);
-        sveVarijable.prikazSuma.textContent = konacnaSuma()
+        ponovniPrikaz()
 
         paragraf.addEventListener('mouseenter', () => {
 
@@ -66,7 +65,7 @@ function rashodiPrikaz() {
             paragraf.addEventListener('mouseleave', () => {
                 btnDel.style.display = 'none';
             })
-
+            // Brisanje jednog rashoda iz liste
             btnDel.addEventListener('click', () => {
                 sveVarijable.rashodi = sveVarijable.rashodi.filter(element => element.id !== itemRashodi.id);
                 console.log("niz rashoda posle brisanja:", sveVarijable.rashodi);
@@ -74,14 +73,10 @@ function rashodiPrikaz() {
                 paragraf.remove();
                 btnDel.remove();
 
-                suma(sveVarijable.prihodi)
+                ponovniPrikaz()
 
-                sveVarijable.prikazRashod.textContent = '-' + suma(sveVarijable.rashodi);
-                sveVarijable.prikazRashodProcenat.textContent = procenat(sveVarijable.rashodi, sveVarijable.prihodi);
-                sveVarijable.prikazSuma.textContent = konacnaSuma()
-
-                console.log('SUMA RASHODA POSLE BRISANJA:', suma(sveVarijable.rashodi));
-                console.log('KONACNA SUMA POSLE BRISANJA:', konacnaSuma());
+                console.log('SUMA RASHODA POSLE BRISANJA:', formatNumber(suma(sveVarijable.rashodi)));
+                console.log('KONACNA SUMA POSLE BRISANJA:', formatNumber(konacnaSuma()));
             })
         })
     }
@@ -108,6 +103,7 @@ function prihodiPrikaz() {
         console.log("dodat prihod:", itemPrihodi);
         console.log("svi trenutni prihodi:", sveVarijable.prihodi);
 
+        //Pravljenje jednog paragrafa prihoda
         let paragraf = document.createElement('p')
         let spanOpis = document.createElement('span');
         let spanIznos = document.createElement('span');
@@ -118,17 +114,16 @@ function prihodiPrikaz() {
         spanOpis.textContent = itemPrihodi.opis;
         spanOpis.className = 'spanOpis';
 
-        spanIznos.textContent = '+' + itemPrihodi.vrednost;
+        spanIznos.textContent = '+' + formatNumber(itemPrihodi.vrednost);
         spanIznos.className = 'spanIznos';
 
+        //Dodavanje paragrafa prihoda na listu
         sveVarijable.listaPrihodi.append(paragraf);
         paragraf.append(spanOpis, spanIznos, noviRed, linija);
 
-        sveVarijable.prikazSuma.textContent = konacnaSuma();
-        sveVarijable.prikazRashodProcenat.textContent = procenat(sveVarijable.rashodi, sveVarijable.prihodi);
-        sveVarijable.prikazPrihod.textContent = '+' + suma(sveVarijable.prihodi);
-        sveVarijable.prikazRashodProcenat
+        ponovniPrikaz()
 
+        // Brisanje jednog prihoda iz liste
         paragraf.addEventListener('mouseenter', () => {
 
             btnDel.textContent = 'OBRIŠI';
@@ -136,7 +131,6 @@ function prihodiPrikaz() {
             btnDel.style.display = 'inline';
 
             paragraf.append(btnDel);
-
 
             paragraf.addEventListener('mouseleave', () => {
                 btnDel.style.display = 'none';
@@ -149,14 +143,10 @@ function prihodiPrikaz() {
                 paragraf.remove();
                 btnDel.remove();
 
-                suma(sveVarijable.rashodi)
+                ponovniPrikaz()
 
-                sveVarijable.prikazPrihod.textContent = '+' + suma(sveVarijable.prihodi);
-                sveVarijable.prikazSuma.textContent = konacnaSuma();
-                sveVarijable.prikazRashodProcenat.textContent = procenat(sveVarijable.rashodi, sveVarijable.prihodi);
-
-                console.log('SUMA PRIHODA POSLE BRISANJA:', suma(sveVarijable.prihodi));
-                console.log('KONACNA SUMA POSLE BRISANJA:', konacnaSuma());
+                console.log('SUMA PRIHODA POSLE BRISANJA:', formatNumber(suma(sveVarijable.prihodi)));
+                console.log('KONACNA SUMA POSLE BRISANJA:', formatNumber(konacnaSuma()));
             })
         })
     }
@@ -168,6 +158,18 @@ function prikazi() {
     prihodiPrikaz();
 }
 
+function ponovniPrikaz() {
+    // prikaz prihoda
+    sveVarijable.prikazPrihod.textContent = '+' + formatNumber(suma(sveVarijable.prihodi));
+
+    // prikaz rashoda
+    sveVarijable.prikazRashod.textContent = '-' + formatNumber(suma(sveVarijable.rashodi))
+    sveVarijable.prikazRashodProcenat.textContent = procenat(sveVarijable.rashodi, sveVarijable.prihodi);
+
+    // prikaz konacne sume
+    sveVarijable.prikazSuma.textContent = konacnaSuma();
+}
+
 // Suma vrednosti elemenata niza
 function suma(niz) {
     let suma = 0;
@@ -175,6 +177,24 @@ function suma(niz) {
         suma += niz[i].vrednost;
     }
     return suma
+}
+
+// Prikaz broja sa odvajanjem tackom
+function formatNumber(number) {
+    let numSplit, int, dec
+
+    number = Math.abs(number)
+    number = number.toFixed(2)
+    numSplit = number.split('.')
+    int = numSplit[0]
+
+    if (int.length > 3) {
+        int = int.substr(0, int.length - 3) + '.' + int.substr(int.length - 3, 3)
+    }
+
+    dec = numSplit[1]
+
+    return ' ' + int + ',' + dec
 }
 
 // Konacna suma
@@ -191,6 +211,9 @@ function konacnaSuma() {
 
 // Procenat rashoda u odnosu na prihod
 function procenat(rashod, zarada) {
+    if (zarada == 0) {
+        return 0 + '%'
+    }
     return Math.round((suma(rashod) / suma(zarada)) * 100) + '%'
 }
 
@@ -248,7 +271,8 @@ let sveFunkcije = {
     provera,
     download,
     skupiSve,
-    onDownload
+    onDownload,
+    formatNumber
 }
 
 export {
